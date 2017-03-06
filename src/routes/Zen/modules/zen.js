@@ -1,9 +1,9 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const FETCH_ZEN = 'FETCH_ZEN'
-export const SAVE_CURRENT_ZEN = 'SAVE_CURRENT_ZEN'
-export const RECEIVE_ZEN = 'RECEIVE_ZEN'
+export const ZEN_FETCH = 'ZEN_FETCH'
+export const ZEN_SAVE = 'ZEN_SAVE'
+export const ZEN_SET_CURRENT = 'ZEN_SET_CURRENT'
 
 // ------------------------------------
 // Actions
@@ -11,7 +11,7 @@ export const RECEIVE_ZEN = 'RECEIVE_ZEN'
 let id = 0
 export const receiveZen = (text) => {
   return {
-    type: RECEIVE_ZEN,
+    type: ZEN_SET_CURRENT,
     payload: {
       text: text,
       id: id += 1
@@ -20,7 +20,7 @@ export const receiveZen = (text) => {
 }
 
 export const saveCurrentZen = () => {
-  return { type: SAVE_CURRENT_ZEN }
+  return { type: ZEN_SAVE }
 }
 
 export const fetchZen = () => {
@@ -40,13 +40,13 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [RECEIVE_ZEN]    : (state, action) => {
+  [ZEN_SET_CURRENT]    : (state, action) => {
     return ({
       ...state,
       current: action.payload,
     })
   },
-  [SAVE_CURRENT_ZEN]    : (state, action) => {
+  [ZEN_SAVE]    : (state, action) => {
     const saved = state.saved.concat(state.current)
     localStorage.setItem('zen:saved', JSON.stringify(saved))
     return ({
