@@ -5,5 +5,7 @@ node_modules
 
 dist
 coverage
+foo.txt
+todo.txt
 
 .idea/

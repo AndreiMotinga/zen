@@ -66,7 +66,7 @@ const getSaved = () => {
 }
 
 const initialState = {
-  current: null,
+  current: fetchZen(),
   saved: getSaved()
 }
 
