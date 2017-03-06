@@ -48,12 +48,19 @@ const ACTION_HANDLERS = {
     })
   },
   [ZEN_SAVE]    : (state, action) => {
-    const saved = state.saved.concat(state.current)
-    localStorage.setItem('zen:saved', JSON.stringify(saved))
-    return ({
-      ...state,
-      saved: saved
-    })
+    let current = state.current
+    if(!current.saved) {
+      current.saved = true
+      const saved = state.saved.concat(state.current)
+      localStorage.setItem('zen:saved', JSON.stringify(saved))
+      return ({
+        ...state,
+        current: current,
+        saved: saved
+      })
+    } else {
+      return state
+    }
   }
 }
 
@@ -67,7 +74,7 @@ const getSaved = () => {
 }
 
 const initialState = {
-  current: fetchZen(),
+  current: null,
   saved: getSaved()
 }
 

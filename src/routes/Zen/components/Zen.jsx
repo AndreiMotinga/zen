@@ -6,11 +6,12 @@ export const Zen = (props) => {
   const { zen, fetchZen, saveCurrentZen } = props
   return (
     <div>
-      <h1>{zen.current.text}</h1>
+      <h1>{zen.current ? zen.current.text : ''}</h1>
       <div>
         <button className='btn btn-default' onClick={fetchZen}>
           Fetch a wisdom
         </button>
+        {' '}
         <button className='btn btn-default' onClick={saveCurrentZen}>
           Save
         </button>
