@@ -1,3 +1,5 @@
+import uuid from 'node-uuid'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -8,13 +10,12 @@ export const ZEN_SET_CURRENT = 'ZEN_SET_CURRENT'
 // ------------------------------------
 // Actions
 // ------------------------------------
-let id = 0
 export const receiveZen = (text) => {
   return {
     type: ZEN_SET_CURRENT,
     payload: {
       text: text,
-      id: id += 1
+      id: uuid.v1()
     }
   }
 }
