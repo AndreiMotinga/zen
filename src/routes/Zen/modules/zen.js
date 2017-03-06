@@ -47,9 +47,11 @@ const ACTION_HANDLERS = {
     })
   },
   [SAVE_CURRENT_ZEN]    : (state, action) => {
+    const saved = state.saved.concat(state.current)
+    localStorage.setItem('zen:saved', JSON.stringify(saved))
     return ({
       ...state,
-      saved: state.saved.concat(state.current)
+      saved: saved
     })
   }
 }
@@ -57,9 +59,15 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+const getSaved = () => {
+  const zenSaved = localStorage.getItem('zen:saved')
+  const saved = zenSaved ? zenSaved : '[]'
+  return JSON.parse(saved)
+}
+
 const initialState = {
   current: null,
-  saved: []
+  saved: getSaved()
 }
 
 export default function zenReducer (state = initialState, action) {

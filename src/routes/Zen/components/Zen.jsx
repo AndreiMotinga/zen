@@ -8,16 +8,16 @@ export const Zen = (props) => {
     <div>
       <h1>{zen.current ? zen.current.text : ''}</h1>
       <div>
-        <h2 className={classes.zenHeader}>
-          {zen ? zen.value : ''}
-        </h2>
+        <h2 className={classes.zenHeader}>{zen ? zen.value : ''}</h2>
         <button className='btn btn-default' onClick={fetchZen}>
           Fetch a wisdom
         </button>
-        {' '}
-        <button className='btn btn-default' onClick={saveCurrentZen}>
-          Save
-        </button>
+        {zen.current
+        ? <button className='btn btn-default' onClick={saveCurrentZen}>
+            Save
+          </button>
+        : ''
+        }
       </div>
       <h3> Saved wisdoms </h3>
       {zen.saved.length
