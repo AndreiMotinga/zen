@@ -43,9 +43,18 @@ export const isSaved = (saved, zen) => {
   return !!saved.find(obj => obj.text === zen.text)
 }
 
+const compare = (a,b) => {
+  if (a.text < b.text)
+    return -1;
+  if (a.text > b.text)
+    return 1;
+  return 0;
+}
+
 const zenSave = (state, action) => {
   if(!isSaved(state.saved, state.current)) {
     const saved = state.saved.concat(state.current)
+                             .sort((a,b) => compare(a,b))
     localStorage.setItem('zen:saved', JSON.stringify(saved))
     return {
       ...state,
