@@ -1,4 +1,3 @@
-import uuid from 'node-uuid'
 import initialState from './initialState'
 
 // ------------------------------------
@@ -15,8 +14,7 @@ export const receiveZen = (text) => {
   return {
     type: ZEN_SET_CURRENT,
     payload: {
-      text: text,
-      id: uuid.v1()
+      text: text
     }
   }
 }
@@ -41,20 +39,21 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+const isCurrentSaved = (state) => {
+  return !!state.saved.find(obj => obj.text === state.current.text)
+}
+
 const zenSave = (state, action) => {
-  let current = state.current
-  if(!current.saved) {
-    current.saved = true
+  if(!isCurrentSaved(state)) {
     const saved = state.saved.concat(state.current)
     localStorage.setItem('zen:saved', JSON.stringify(saved))
-    return ({
+    return {
       ...state,
-      current: current,
-      saved: saved
-    })
-  } else {
-    return state
+      saved
+    }
   }
+
+  return state
 }
 
 const zenSetCurrent = (state, action) => {

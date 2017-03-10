@@ -21,8 +21,8 @@ export const Zen = ({ zen, fetchZen, saveCurrentZen }) => {
       ? <div>
           <h3> Saved wisdoms </h3>
             <ul>
-              {zen.saved.map(zen =>
-                <li key={zen.id}>
+              {zen.saved.map((zen, i) =>
+                <li key={i}>
                   {zen.text}
                 </li>
               )}
