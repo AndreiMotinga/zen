@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
-import { fetchZen, saveCurrentZen } from '../modules/zen'
-
+import { fetchZen, saveCurrentZen, removeZen, clearSaved } from '../modules/zen'
 import Zen from '../components/Zen.jsx'
 
 const mapDispatchToProps = {
   fetchZen,
-  saveCurrentZen
+  clearSaved,
+  saveCurrentZen,
+  removeZen: (zen) => removeZen(zen)
 }
 
 const mapStateToProps = (state) => ({

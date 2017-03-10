@@ -6,6 +6,8 @@ import initialState from './initialState'
 export const ZEN_FETCH = 'ZEN_FETCH'
 export const ZEN_SAVE = 'ZEN_SAVE'
 export const ZEN_SET_CURRENT = 'ZEN_SET_CURRENT'
+export const ZEN_REMOVE = 'ZEN_REMOVE'
+export const ZEN_CLEAR_SAVED = 'ZEN_CLEAR_SAVED'
 
 // ------------------------------------
 // Actions
@@ -31,9 +33,26 @@ export const fetchZen = () => {
   }
 }
 
+export const removeZen = (zen) => {
+  return {
+    type: ZEN_REMOVE,
+    payload: {
+      zen
+    }
+  }
+}
+
+export const clearSaved = () => {
+  return {
+    type: ZEN_CLEAR_SAVED
+  }
+}
+
 export const actions = {
+  clearSaved,
+  saveCurrentZen,
   fetchZen,
-  saveCurrentZen
+  removeZen
 }
 
 // ------------------------------------
@@ -51,7 +70,7 @@ const compare = (a,b) => {
   return 0;
 }
 
-const zenSave = (state, action) => {
+const zenSave = (state) => {
   if(!isSaved(state.saved, state.current)) {
     const saved = state.saved.concat(state.current)
                              .sort((a,b) => compare(a,b))
@@ -65,6 +84,15 @@ const zenSave = (state, action) => {
   return state
 }
 
+const zenRemove = (state, action) => {
+  const saved = state.saved.filter(zen => zen !== action.payload.zen)
+  localStorage.setItem('zen:saved', JSON.stringify(saved))
+  return ({
+    ...state,
+    saved
+  })
+}
+
 const zenSetCurrent = (state, action) => {
   return ({
     ...state,
@@ -72,9 +100,20 @@ const zenSetCurrent = (state, action) => {
   })
 }
 
+const zenClearSaved = (state) => {
+  const saved = []
+  localStorage.setItem('zen:saved', JSON.stringify(saved))
+  return ({
+    ...state,
+    saved
+  })
+}
+
 const ACTION_HANDLERS = {
   [ZEN_SET_CURRENT]: zenSetCurrent,
-  [ZEN_SAVE]: zenSave
+  [ZEN_SAVE]: zenSave,
+  [ZEN_REMOVE]: zenRemove,
+  [ZEN_CLEAR_SAVED]: zenClearSaved
 }
 
 
