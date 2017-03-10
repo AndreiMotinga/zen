@@ -1,4 +1,5 @@
 import uuid from 'node-uuid'
+import initialState from './initialState'
 
 // ------------------------------------
 // Constants
@@ -40,45 +41,39 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {
-  [ZEN_SET_CURRENT]    : (state, action) => {
+const zenSave = (state, action) => {
+  let current = state.current
+  if(!current.saved) {
+    current.saved = true
+    const saved = state.saved.concat(state.current)
+    localStorage.setItem('zen:saved', JSON.stringify(saved))
     return ({
       ...state,
-      current: action.payload,
+      current: current,
+      saved: saved
     })
-  },
-  [ZEN_SAVE]    : (state, action) => {
-    let current = state.current
-    if(!current.saved) {
-      current.saved = true
-      const saved = state.saved.concat(state.current)
-      localStorage.setItem('zen:saved', JSON.stringify(saved))
-      return ({
-        ...state,
-        current: current,
-        saved: saved
-      })
-    } else {
-      return state
-    }
+  } else {
+    return state
   }
 }
+
+const zenSetCurrent = (state, action) => {
+  return ({
+    ...state,
+    current: action.payload,
+  })
+}
+
+const ACTION_HANDLERS = {
+  [ZEN_SET_CURRENT]: zenSetCurrent,
+  [ZEN_SAVE]: zenSave
+}
+
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const getSaved = () => {
-  const zenSaved = localStorage.getItem('zen:saved')
-  const saved = zenSaved ? zenSaved : '[]'
-  return JSON.parse(saved)
-}
-
-const initialState = {
-  current: null,
-  saved: getSaved()
-}
-
-export default function zenReducer (state = initialState, action) {
+export default function zenReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

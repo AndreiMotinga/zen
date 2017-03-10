@@ -1,24 +1,25 @@
 import React from 'react'
 import classes from './Zen.scss'
+import Btn from '../../../components/Btn'
 const { shape, object, string, array, func } = React.PropTypes
 
-export const Zen = (props) => {
-  const { zen, fetchZen, saveCurrentZen } = props
+export const Zen = ({ zen, fetchZen, saveCurrentZen }) => {
   return (
     <div>
-      <h1>{zen.current ? zen.current.text : ''}</h1>
-      <div>
-        <button className='btn btn-default' onClick={fetchZen}>
-          Fetch a wisdom
-        </button>
+      <h1>{ zen.current
+              ? zen.current.text
+              : "Experience Internet wisdom" }
+      </h1>
+        <Btn onClick={fetchZen}>Fetch a wisdom</Btn>
         {' '}
-        <button className='btn btn-default' onClick={saveCurrentZen}>
-          Save
-        </button>
-      </div>
-      <h3> Saved wisdoms </h3>
+        { zen.current
+            ? <Btn onClick={saveCurrentZen}>Save</Btn>
+            : ''
+        }
+
       {zen.saved.length
-        ? <div>
+      ? <div>
+          <h3> Saved wisdoms </h3>
             <ul>
               {zen.saved.map(zen =>
                 <li key={zen.id}>
@@ -27,7 +28,7 @@ export const Zen = (props) => {
               )}
             </ul>
           </div>
-        : <span>None so far</span>
+        : ''
       }
     </div>
   )
