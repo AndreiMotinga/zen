@@ -39,12 +39,12 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const isCurrentSaved = (state) => {
-  return !!state.saved.find(obj => obj.text === state.current.text)
+export const isSaved = (saved, zen) => {
+  return !!saved.find(obj => obj.text === zen.text)
 }
 
 const zenSave = (state, action) => {
-  if(!isCurrentSaved(state)) {
+  if(!isSaved(state.saved, state.current)) {
     const saved = state.saved.concat(state.current)
     localStorage.setItem('zen:saved', JSON.stringify(saved))
     return {

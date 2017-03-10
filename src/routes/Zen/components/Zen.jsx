@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './Zen.scss'
 import Btn from '../../../components/Btn'
+import { isSaved } from '../modules/zen'
 const { shape, object, string, array, func } = React.PropTypes
 
 export const Zen = ({ zen, fetchZen, saveCurrentZen }) => {
@@ -12,7 +13,7 @@ export const Zen = ({ zen, fetchZen, saveCurrentZen }) => {
       </h1>
         <Btn onClick={fetchZen}>Fetch a wisdom</Btn>
         {' '}
-        { zen.current
+        { zen.current && !isSaved(zen.saved, zen.current)
             ? <Btn onClick={saveCurrentZen}>Save</Btn>
             : ''
         }
